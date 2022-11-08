@@ -12,34 +12,25 @@ MEMORY_WORKER_NODE  = 1048
 WORKER_NODES_COUNT  = 2
 
 
-
 Vagrant.configure(2) do |config|
 
-  config.vm.provision "shell", path: "bootstrap.sh"
+  config.vm.provision "shell", path: "install_k8s.sh"
 
   # Kubernetes Master Server
   config.vm.define "kmaster" do |node|
-  
     node.vm.box               = VAGRANT_BOX
     node.vm.box_check_update  = false
     node.vm.box_version       = VAGRANT_BOX_VERSION
-    node.vm.hostname          = "kmaster.example.com"
-
+    node.vm.hostname          = "master.example.com"
     node.vm.network "private_network", ip: "192.168.56.10"
   
     node.vm.provider :virtualbox do |v|
-      v.name    = "kmaster"
+      v.name    = "master"
       v.memory  = MEMORY_MASTER_NODE
       v.cpus    = CPUS_MASTER_NODE
     end
   
-    node.vm.provider :libvirt do |v|
-      v.memory  = MEMORY_MASTER_NODE
-      v.nested  = true
-      v.cpus    = CPUS_MASTER_NODE
-    end
-  
-    node.vm.provision "shell", path: "bootstrap_kmaster.sh"
+    node.vm.provision "shell", path: "init_master.sh"
   
   end
 
@@ -52,23 +43,17 @@ Vagrant.configure(2) do |config|
       node.vm.box               = VAGRANT_BOX
       node.vm.box_check_update  = false
       node.vm.box_version       = VAGRANT_BOX_VERSION
-      node.vm.hostname          = "kworker#{i}.example.com"
+      node.vm.hostname          = "worker#{i}.example.com"
 
       node.vm.network "private_network", ip: "192.168.56.1#{i}"
 
       node.vm.provider :virtualbox do |v|
-        v.name    = "kworker#{i}"
+        v.name    = "worker#{i}"
         v.memory  = MEMORY_WORKER_NODE
         v.cpus    = CPUS_WORKER_NODE
       end
 
-      node.vm.provider :libvirt do |v|
-        v.memory  = MEMORY_WORKER_NODE
-        v.nested  = true
-        v.cpus    = CPUS_WORKER_NODE
-      end
-
-      node.vm.provision "shell", path: "bootstrap_kworker.sh"
+      node.vm.provision "shell", path: "join_worker.sh"
 
     end
 

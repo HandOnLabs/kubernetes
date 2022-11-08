@@ -1,11 +1,5 @@
 #!/bin/bash
 
-## !IMPORTANT ##
-#
-## This script is tested only in the generic/ubuntu2004 Vagrant box
-## If you use a different version of Ubuntu or a different Ubuntu Vagrant box test this again
-#
-
 echo "[TASK 1] Disable and turn off SWAP"
 sed -i '/swap/d' /etc/fstab
 swapoff -a
@@ -51,12 +45,12 @@ echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 systemctl reload sshd
 
 echo "[TASK 9] Set root password"
-echo -e "kubeadmin\nkubeadmin" | passwd root >/dev/null 2>&1
+echo -e "rootroot\rootroot" | passwd root >/dev/null 2>&1
 echo "export TERM=xterm" >> /etc/bash.bashrc
 
 echo "[TASK 10] Update /etc/hosts file"
 cat >>/etc/hosts<<EOF
-192.168.56.10   kmaster.example.com     kmaster
-192.168.56.11   kworker1.example.com    kworker1
-192.168.56.12   kworker2.example.com    kworker2
+192.168.56.10   master.example.com     master
+192.168.56.11   worker1.example.com    worker1
+192.168.56.12   worker2.example.com    worker2
 EOF
