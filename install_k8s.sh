@@ -45,7 +45,8 @@ echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 systemctl reload sshd
 
 echo "[TASK 9] Set root password"
-echo -e "rootroot\rootroot" | passwd root >/dev/null 2>&1
+#echo -e "rootroot\nrootroot" | passwd root >/dev/null 2>&1
+echo "root:rootroot" | chpasswd >/dev/null 2>&1
 echo "export TERM=xterm" >> /etc/bash.bashrc
 
 echo "[TASK 10] Update /etc/hosts file"
