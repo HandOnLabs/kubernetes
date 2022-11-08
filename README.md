@@ -1,1 +1,2 @@
-# kubernetes
+# kubernetes Notes ...
+this vagrant File is test only with the box  "generic/ubuntu2204" :"4.0.2"
