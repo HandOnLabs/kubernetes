@@ -17,7 +17,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", path: "install_k8s.sh"
 
   # Kubernetes Master Server
-  config.vm.define "kmaster" do |node|
+  config.vm.define "master" do |node|
     node.vm.box               = VAGRANT_BOX
     node.vm.box_check_update  = false
     node.vm.box_version       = VAGRANT_BOX_VERSION
@@ -38,7 +38,7 @@ Vagrant.configure(2) do |config|
   # Kubernetes Worker Nodes
   (1..WORKER_NODES_COUNT).each do |i|
 
-    config.vm.define "kworker#{i}" do |node|
+    config.vm.define "worker#{i}" do |node|
 
       node.vm.box               = VAGRANT_BOX
       node.vm.box_check_update  = false
