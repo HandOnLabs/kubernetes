@@ -14,7 +14,7 @@ WORKER_NODES_COUNT  = 2
 
 Vagrant.configure(2) do |config|
 
-  config.vm.provision "shell", path: "install_k8s.sh"
+  config.vm.provision "shell", path: "commun_install.sh"
 
   # Kubernetes Master Server
   config.vm.define "master" do |node|
